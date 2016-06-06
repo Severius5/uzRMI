@@ -8,17 +8,14 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import data.Id;
 import data.Product;
 import logic.Shop;
 import panels.MyFrame;
 
-enum Id{
-	USER, ADMIN
-}
-
 public class Client {
 	
-	protected static Shop netConn;
+	private Shop netConn;
 	private Id status = Id.USER;
 	private ArrayList<Product> cart = new ArrayList<>();
 	
@@ -29,12 +26,14 @@ public class Client {
 			if (remoteObject == null) {
 				throw new RemoteException("Brak Sklepu");
 			}
-			netConn = (Shop) remoteObject;
+			Client client = new Client();
+			client.netConn = (Shop) remoteObject;
 			EventQueue.invokeLater(new Runnable(){
-
+				Client client = new Client();
+				
 				@Override
 				public void run() {
-					new MyFrame(netConn);
+					new MyFrame(client);
 				}
 			});
 					
@@ -59,6 +58,10 @@ public class Client {
 
 	public void setCart(ArrayList<Product> cart) {
 		this.cart = cart;
+	}
+	
+	public Shop getNetConn() {
+		return netConn;
 	}
 
 }

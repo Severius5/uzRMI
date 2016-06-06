@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import data.Id;
 import logic.Shop;
+import main.Client;
 
 public class MenuPanel extends JPanel implements ActionListener{
 	
@@ -18,13 +20,13 @@ public class MenuPanel extends JPanel implements ActionListener{
 	private JButton logIn;
 	private JButton logOut;
 	private JButton addProduct;
-	private Shop netConn;
+	private Client clientRef;
 
-	public MenuPanel(Shop netConn) {
+	public MenuPanel(Client clientRef) {
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
-		this.netConn = netConn;
+		this.clientRef = clientRef;
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
@@ -53,7 +55,7 @@ public class MenuPanel extends JPanel implements ActionListener{
 			try {
 				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
 				int count = Integer.parseInt(result);
-				netConn.addProduct(1, count);
+				clientRef.getNetConn().addProduct(1, count);
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (NumberFormatException e1){

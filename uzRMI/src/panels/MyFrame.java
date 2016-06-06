@@ -6,21 +6,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import logic.Shop;
+import main.Client;
 
 public class MyFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Shop netConn;
+	private Client clientRef;
 	
-	public MyFrame(Shop netConn){
+	public MyFrame(Client clientRef){
 		super("Okienko");
-		this.netConn = netConn;
+		this.clientRef = clientRef;
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		setSize(500, 300);
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JPanel menuPanel = new MenuPanel(netConn);
+		JPanel menuPanel = new MenuPanel(clientRef);
 		add(menuPanel);
 		
 		pack();
