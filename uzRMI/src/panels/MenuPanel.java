@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel implements ActionListener{
@@ -45,6 +46,7 @@ public class MenuPanel extends JPanel implements ActionListener{
 			System.out.println("Wylogowanie");
 		else if(source == addProduct)
 			System.out.println("dodawanie produktu");
+		JOptionPane.showMessageDialog(null,"Eggs are not supposed to be green.");
 	}
 
 }
