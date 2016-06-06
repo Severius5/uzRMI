@@ -30,20 +30,19 @@ public class Client {
 				throw new RemoteException("Brak Sklepu");
 			}
 			netConn = (Shop) remoteObject;
-			
 			EventQueue.invokeLater(new Runnable(){
 
 				@Override
 				public void run() {
-					new MyFrame();
+					new MyFrame(this);
 				}
-				
 			});
 					
 		} catch (NotBoundException | IOException e) {
 			
 			e.printStackTrace();
 		}
+
 	}
 
 	public Id getStatus() {

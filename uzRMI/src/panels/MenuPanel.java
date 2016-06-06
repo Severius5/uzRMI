@@ -6,8 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import main.Client;
 
 public class MenuPanel extends JPanel implements ActionListener{
 	
@@ -15,11 +16,13 @@ public class MenuPanel extends JPanel implements ActionListener{
 	private JButton logIn;
 	private JButton logOut;
 	private JButton addProduct;
+	private Client clientRef;
 
-	public MenuPanel() {
+	public MenuPanel(Client clientRef) {
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
+		this.clientRef = clientRef;
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
