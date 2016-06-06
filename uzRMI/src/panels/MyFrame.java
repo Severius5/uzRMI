@@ -1,9 +1,9 @@
-package logic;
+package panels;
 
 import java.awt.FlowLayout;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MyFrame extends JFrame {
 
@@ -13,12 +13,14 @@ public class MyFrame extends JFrame {
 		super("Okienko");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(200, 120);
+		setSize(500, 300);
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		add(new JButton("Button 1"));
-		add(new JButton("Button 2"));
-		add(new JButton("Button 3"));
+		JPanel menuPanel = new MenuPanel();
+		add(menuPanel);
+		
+		pack();
+		
 	}
 
 }

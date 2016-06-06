@@ -2,8 +2,9 @@ package main;
 
 import java.awt.EventQueue;
 
-import logic.MyFrame;
+import panels.MyFrame;
 
+// TESTOWE
 public class Main {
 
 	public static void main(String[] args) {
