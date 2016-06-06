@@ -21,7 +21,7 @@ public class Client {
 	protected static Shop netConn;
 	private Id status = Id.USER;
 	private ArrayList<Product> cart = new ArrayList<>();
-
+	
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		try {
@@ -34,7 +34,7 @@ public class Client {
 
 				@Override
 				public void run() {
-					new MyFrame(this);
+					new MyFrame(netConn);
 				}
 			});
 					

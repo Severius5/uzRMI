@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import main.Client;
+import logic.Shop;
 
 public class MenuPanel extends JPanel implements ActionListener{
 	
@@ -16,13 +18,13 @@ public class MenuPanel extends JPanel implements ActionListener{
 	private JButton logIn;
 	private JButton logOut;
 	private JButton addProduct;
-	private Client clientRef;
+	private Shop netConn;
 
-	public MenuPanel(Client clientRef) {
+	public MenuPanel(Shop netConn) {
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
-		this.clientRef = clientRef;
+		this.netConn = netConn;
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
@@ -43,12 +45,21 @@ public class MenuPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if(source == logIn)
+		if(source == logIn){
 			System.out.println("Logowanie");
-		else if(source == logOut)
+		}else if(source == logOut){
 			System.out.println("Wylogowanie");
-		else if(source == addProduct)
-			System.out.println("dodawanie produktu");
+		}else if(source == addProduct){
+			try {
+				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
+				int count = Integer.parseInt(result);
+				netConn.addProduct(1, count);
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			} catch (NumberFormatException e1){
+				e1.printStackTrace();
+			}
+			}
 	}
 
 }
