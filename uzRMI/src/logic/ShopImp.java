@@ -1,22 +1,24 @@
 package logic;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
 import data.Product;
 
-public class ShopImp implements Shop{
+public class ShopImp  extends UnicastRemoteObject implements Shop{
 	
+	private static final long serialVersionUID = 1L;
 	private HashMap<Integer, Product> productList = new HashMap<>();
 	
-	public ShopImp(){
+	public ShopImp() throws RemoteException{
 		productList.put(1, new Product("Kubek","China",12.5,6));
 		productList.put(2, new Product("LG G4", "Asia", 2500, 2));
 		productList.put(3, new Product("Talerz", "Poland", 4.99, 10));
 	}
 
 	@Override
-	public String searchProduct(String firtr, String search) throws RemoteException {
+	public String searchProduct(String filter, String search) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}

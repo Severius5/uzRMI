@@ -7,7 +7,7 @@ import data.Product;
 
 public interface Shop extends Remote{
 	
-	public String searchProduct(String firtr, String search) throws RemoteException;
+	public String searchProduct(String filter, String search) throws RemoteException;
 
 	public Product buyProduct(int productId, int count) throws RemoteException;
 
