@@ -1,0 +1,2 @@
+# uzRMI
+zadanie na współbieżne 
