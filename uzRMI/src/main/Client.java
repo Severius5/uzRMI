@@ -6,7 +6,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
+import data.Product;
 import logic.Shop;
 import panels.MyFrame;
 
@@ -18,6 +20,7 @@ public class Client {
 	
 	protected static Shop netConn;
 	private Id status = Id.USER;
+	private ArrayList<Product> cart = new ArrayList<>();
 
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
@@ -49,6 +52,14 @@ public class Client {
 
 	public void setStatus(Id status) {
 		this.status = status;
+	}
+
+	public ArrayList<Product> getCart() {
+		return cart;
+	}
+
+	public void setCart(ArrayList<Product> cart) {
+		this.cart = cart;
 	}
 
 }

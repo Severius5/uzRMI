@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import data.Product;
 
 public class ShopImp  extends UnicastRemoteObject implements Shop{
@@ -31,7 +33,7 @@ public class ShopImp  extends UnicastRemoteObject implements Shop{
 			bought.setQuantity(count);
 			return bought;
 		}else{
-			//popup message o braku produktu
+			showMessage("Brak danego produktu");
 			return null;
 		}
 	}
@@ -46,7 +48,7 @@ public class ShopImp  extends UnicastRemoteObject implements Shop{
 	public void addNewProduct(Product newProduct) throws RemoteException {
 		//if(newProduct.getName().equals(productList.containsValue(newProduct.getName()))){
 			productList.put(productList.size()+1, newProduct);
-			//popup message o dodaniu
+			showMessage("Dodano nowy produkt");
 		//}
 	}
 
@@ -54,11 +56,14 @@ public class ShopImp  extends UnicastRemoteObject implements Shop{
 	public void addProduct(int productId, int count) throws RemoteException {
 		if(productList.containsKey(productId)){
 			productList.get(productId).addQuantity(count);
-			//popup message	o dodaniu
+			showMessage("Dodano produkt");
 		}else{
-			//popup message o braku produktu
+			showMessage("Brak danego produktu na liscie");
 		}
 	}
 	
+	private void showMessage(String message){
+		JOptionPane.showMessageDialog(null,message);
+	}
 
 }
