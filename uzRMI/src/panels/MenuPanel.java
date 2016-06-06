@@ -46,7 +46,6 @@ public class MenuPanel extends JPanel implements ActionListener{
 			System.out.println("Wylogowanie");
 		else if(source == addProduct)
 			System.out.println("dodawanie produktu");
-		JOptionPane.showMessageDialog(null,"Eggs are not supposed to be green.");
 	}
 
 }

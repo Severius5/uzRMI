@@ -6,7 +6,7 @@ import java.rmi.registry.Registry;
 
 import logic.ShopImp;
 
-//java -Djava.security.policy=java.policy servtest.Server
+//java -Djava.security.policy=java.policy main.Server
 public class Server {
 
 	public static void main(String[] args) {
@@ -15,7 +15,7 @@ public class Server {
 
 			ShopImp shopImp = new ShopImp();
 
-			Registry registry = LocateRegistry.createRegistry(111111);
+			Registry registry = LocateRegistry.createRegistry(11111);
 			registry.rebind("Sklep", shopImp);
 			System.out.println("Start serwer");
 		} catch (RemoteException e) {

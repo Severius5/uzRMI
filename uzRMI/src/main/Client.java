@@ -25,7 +25,7 @@ public class Client {
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		try {
-			Remote remoteObject = Naming.lookup("rmi://127.0.0.1:33333/Date");
+			Remote remoteObject = Naming.lookup("rmi://127.0.0.1:11111/Sklep");
 			if (remoteObject == null) {
 				throw new RemoteException("Brak Sklepu");
 			}
