@@ -39,10 +39,18 @@ public class MenuPanel extends JPanel implements ActionListener {
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(500, 200));
 
-		add(logIn);
-		add(logOut);
-		add(addProduct);
-		add(addNewProduct);
+		add(logIn).setVisible(false);
+		add(logOut).setVisible(false);
+		add(addProduct).setVisible(false);
+		add(addNewProduct).setVisible(false);
+		
+		if(clientRef.getStatus() == Id.ADMIN){
+			logOut.setVisible(true);
+			addProduct.setVisible(true);
+			addNewProduct.setVisible(true);
+		} else {
+			logIn.setVisible(true);
+		}
 
 	}
 
