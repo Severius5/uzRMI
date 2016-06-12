@@ -1,13 +1,19 @@
 package data;
 
-public class Product {
+import java.io.Serializable;
 
+public class Product implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int quantity;
 	private double price;
 	private String name;
 	private String manufacturer;
+	private int id;
+	private int idCount = 1;
 
 	public Product(String name, String manufacturer, double price, int quantity) {
+		id = idCount;
 		this.name = name;
 		this.manufacturer = manufacturer;
 		this.price = price;
@@ -52,6 +58,14 @@ public class Product {
 
 	public void removeQuantity(int count) {
 		this.quantity -= count;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
