@@ -25,19 +25,20 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private Client clientRef;
 
 	public MenuPanel(Client clientRef) {
+		this.clientRef = clientRef;
+		
+		setLayout(new FlowLayout());
+		setPreferredSize(new Dimension(500, 100));
+		
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
 		addNewProduct = new JButton("Add new product");
-		this.clientRef = clientRef;
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
 		addProduct.addActionListener(this);
 		addNewProduct.addActionListener(this);
-
-		setLayout(new FlowLayout());
-		setPreferredSize(new Dimension(500, 200));
 
 		add(logIn).setVisible(true);
 		add(logOut).setVisible(false);

@@ -1,5 +1,6 @@
 package panels;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
@@ -12,10 +13,10 @@ public class MyFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public MyFrame(Client clientRef){
-		super("Okienko");
+		super("Sklep");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(500, 300);
+		setPreferredSize(new Dimension(500, 200));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		JPanel menuPanel = new MenuPanel(clientRef);

@@ -13,12 +13,13 @@ import data.Product;
 import logic.Shop;
 import panels.MyFrame;
 
+//java -Djava.security.policy=java.policy main.Client
 public class Client {
-	
+
 	private Shop netConn;
 	private Id status = Id.USER;
 	private ArrayList<Product> cart = new ArrayList<>();
-	
+
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		try {
@@ -26,18 +27,18 @@ public class Client {
 			if (remoteObject == null) {
 				throw new RemoteException("Brak Sklepu");
 			}
+
 			Client client = new Client();
 			client.netConn = (Shop) remoteObject;
-			EventQueue.invokeLater(new Runnable(){
-				
+			EventQueue.invokeLater(new Runnable() {
+
 				@Override
 				public void run() {
 					new MyFrame(client);
 				}
 			});
-					
+			System.out.println("Connected");
 		} catch (NotBoundException | IOException e) {
-			
 			e.printStackTrace();
 		}
 
@@ -58,12 +59,12 @@ public class Client {
 	public void setCart(ArrayList<Product> cart) {
 		this.cart = cart;
 	}
-	
+
 	public Shop getNetConn() {
 		return netConn;
 	}
-	
-	public void addToCart(Product item){
+
+	public void addToCart(Product item) {
 		cart.add(item);
 	}
 

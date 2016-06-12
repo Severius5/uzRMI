@@ -12,14 +12,13 @@ public class Server {
 	public static void main(String[] args) {
 		System.setSecurityManager(new SecurityManager());
 		try {
-
 			ShopImp shopImp = new ShopImp();
 
 			Registry registry = LocateRegistry.createRegistry(11111);
 			registry.rebind("Sklep", shopImp);
 			System.out.println("Start serwer");
+			while(true) { }
 		} catch (RemoteException e) {
-
 			e.printStackTrace();
 		}
 	}

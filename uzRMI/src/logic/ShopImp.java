@@ -43,7 +43,6 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 	@Override
 	public void showProducts() throws RemoteException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
