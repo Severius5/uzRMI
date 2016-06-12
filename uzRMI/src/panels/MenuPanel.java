@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import data.Id;
 import data.Product;
 import logic.ShopImp;
 import main.Client;
@@ -50,9 +51,9 @@ public class MenuPanel extends JPanel implements ActionListener {
 		Object source = e.getSource();
 
 		if (source == logIn) {
-			System.out.println("Logowanie");
+			clientRef.setStatus(Id.ADMIN);
 		} else if (source == logOut) {
-			System.out.println("Wylogowanie");
+			clientRef.setStatus(Id.USER);
 		} else if (source == addProduct) {
 			try {
 				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
@@ -61,20 +62,23 @@ public class MenuPanel extends JPanel implements ActionListener {
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
+				ShopImp.showMessage("Zly format");
 			}
-		}else if(source == addNewProduct){
-			String name = JOptionPane.showInputDialog(null, "Podaj nazwe:");
-			String manufacturer = JOptionPane.showInputDialog(null,"Podaj producenta:");
-			String cena = JOptionPane.showInputDialog(null,"Podaj cene:");
-			String ilosc = JOptionPane.showInputDialog(null,"Podaj ilosc:");
+		} else if (source == addNewProduct) {
 			try {
-				Product newProduct = new Product(name,manufacturer,Double.parseDouble(cena),Integer.parseInt(ilosc));
-				clientRef.getNetConn().addNewProduct(newProduct);
+				String name = JOptionPane.showInputDialog(null, "Podaj nazwe:");
+				String manufacturer = JOptionPane.showInputDialog(null, "Podaj producenta:");
+				double cena = Double.parseDouble(JOptionPane.showInputDialog(null, "Podaj cene:"));
+				int ilosc = Integer.parseInt(JOptionPane.showInputDialog(null, "Podaj ilosc:"));
+				if (name == null || manufacturer == null)
+					throw new NullPointerException();
+				clientRef.getNetConn().addNewProduct(new Product(name, manufacturer, cena, ilosc));
 			} catch (NumberFormatException e1) {
 				ShopImp.showMessage("Podano zle wartosci");
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
+			} catch (NullPointerException e1) {
+				ShopImp.showMessage("Prosze uzupelnic wszystkie pola");
 			}
 		}
 	}

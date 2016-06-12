@@ -29,7 +29,6 @@ public class Client {
 			Client client = new Client();
 			client.netConn = (Shop) remoteObject;
 			EventQueue.invokeLater(new Runnable(){
-				Client client = new Client();
 				
 				@Override
 				public void run() {
@@ -62,6 +61,10 @@ public class Client {
 	
 	public Shop getNetConn() {
 		return netConn;
+	}
+	
+	public void addToCart(Product item){
+		cart.add(item);
 	}
 
 }
