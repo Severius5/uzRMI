@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -22,6 +23,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton logOut;
 	private JButton addProduct;
 	private JButton addNewProduct;
+	private JButton searchProduct;
 	private Client clientRef;
 
 	public MenuPanel(Client clientRef) {
@@ -34,16 +36,19 @@ public class MenuPanel extends JPanel implements ActionListener {
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
 		addNewProduct = new JButton("Add new product");
+		searchProduct = new JButton("Search");
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
 		addProduct.addActionListener(this);
 		addNewProduct.addActionListener(this);
+		searchProduct.addActionListener(this);
 
-		add(logIn).setVisible(true);
+		add(logIn);
 		add(logOut).setVisible(false);
 		add(addProduct).setVisible(false);
 		add(addNewProduct).setVisible(false);
+		add(searchProduct);
 		
 	}
 
@@ -81,11 +86,27 @@ public class MenuPanel extends JPanel implements ActionListener {
 				clientRef.getNetConn().addNewProduct(new Product(name, manufacturer, cena, ilosc));
 				
 			} catch (NumberFormatException e1) {
-				ShopImp.showMessage("Podano zle wartosci");
+				ShopImp.showMessage("Podano zle wartosci.");
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (NullPointerException e1) {
-				ShopImp.showMessage("Prosze uzupelnic wszystkie pola");
+				ShopImp.showMessage("Prosze uzupelnic wszystkie pola.");
+			}
+		} else if(source == searchProduct){
+			try{
+				JDialog.setDefaultLookAndFeelDecorated(true);
+			    Object[] selectionValues = { "Id", "Name", "Manufacturer", "Price", "Quantity" };
+			    String initialSelection = "Id";
+			    String filter = JOptionPane.showInputDialog(null, "Po czym wyszukiwac?",
+			        "Search", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection).toString();
+			    String search = JOptionPane.showInputDialog(null, "Szukane:");
+			    if(search == null)
+			    	throw new NullPointerException();
+			    clientRef.getNetConn().searchProduct(filter, search);
+			}catch(NullPointerException e2){
+				ShopImp.showMessage("Prosze uzupelnic pole.");
+			} catch (RemoteException e2) {
+				e2.printStackTrace();
 			}
 		}
 	}

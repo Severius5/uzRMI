@@ -21,8 +21,56 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 	}
 
 	@Override
-	public String searchProduct(String filter, String search) throws RemoteException {
-		// TODO Auto-generated method stub
+	public List<Product> searchProduct(String filter, String search) throws RemoteException {
+		String parametr = filter.toLowerCase();
+		List<Product> searchList = new ArrayList<>();
+		
+		switch (parametr) {
+		
+		case "id":
+			int id = Integer.parseInt(search);
+			for(Product product:productList){
+				if(product.getId() == id){
+					searchList.add(product);
+				}
+			}
+			return searchList;
+			
+		case "name":
+			for(Product product:productList){
+				if(product.getName().contains(search)){
+					searchList.add(product);
+				}
+			}
+			return searchList;
+			
+		case "manufacturer":
+			for(Product product:productList){
+				if(product.getManufacturer().contains(search)){
+					searchList.add(product);
+				}
+			}
+			return searchList;
+			
+		case "price":
+			double price = Double.parseDouble(search);
+			for(Product product:productList){
+				if(product.getPrice() == price){
+					searchList.add(product);
+				}
+			}
+			return searchList;
+			
+		case "quantity":
+			int quantity = Integer.parseInt(search);
+			for(Product product:productList){
+				if(product.getQuantity() == quantity){
+					searchList.add(product);
+				}
+			}
+			return searchList;
+
+		}
 		return null;
 	}
 
@@ -38,11 +86,6 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 		}
 		showMessage("Brak danego produktu");
 		return null;
-	}
-
-	@Override
-	public void showProducts() throws RemoteException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
