@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -23,8 +24,10 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton addProduct;
 	private JButton addNewProduct;
 	private Client clientRef;
+	private JFrame frame;
 
 	public MenuPanel(Client clientRef) {
+		frame = new JFrame();
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
@@ -39,19 +42,11 @@ public class MenuPanel extends JPanel implements ActionListener {
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(500, 200));
 
-		add(logIn).setVisible(false);
+		add(logIn).setVisible(true);
 		add(logOut).setVisible(false);
 		add(addProduct).setVisible(false);
 		add(addNewProduct).setVisible(false);
 		
-		if(clientRef.getStatus() == Id.ADMIN){
-			logOut.setVisible(true);
-			addProduct.setVisible(true);
-			addNewProduct.setVisible(true);
-		} else {
-			logIn.setVisible(true);
-		}
-
 	}
 
 	@Override
@@ -60,8 +55,10 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 		if (source == logIn) {
 			clientRef.setStatus(Id.ADMIN);
+			adminButtons(true);
 		} else if (source == logOut) {
 			clientRef.setStatus(Id.USER);
+			adminButtons(false);
 		} else if (source == addProduct) {
 			try {
 				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
@@ -89,6 +86,15 @@ public class MenuPanel extends JPanel implements ActionListener {
 				ShopImp.showMessage("Prosze uzupelnic wszystkie pola");
 			}
 		}
+		this.revalidate();
+	//	frame.repaint();
+	}
+	
+	private void adminButtons(boolean condition){
+		logIn.setVisible(!condition);
+		logOut.setVisible(condition);
+		addProduct.setVisible(condition);
+		addNewProduct.setVisible(condition);
 	}
 
 }
