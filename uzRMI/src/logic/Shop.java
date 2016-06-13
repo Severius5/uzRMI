@@ -12,10 +12,10 @@ public interface Shop extends Remote{
 
 	public Product buyProduct(int productId, int count) throws RemoteException;
 
-	public void addNewProduct(Product newProduct) throws RemoteException;
+	public void addNewProduct(String name, String manufacturer, double price, int quantity) throws RemoteException;
 
 	public void addProduct(int productId, int count) throws RemoteException;
 	
 	public List<Product> getProductList() throws RemoteException;
-
+	
 }

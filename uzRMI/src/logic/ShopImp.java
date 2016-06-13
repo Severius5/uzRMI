@@ -17,11 +17,12 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 	public ShopImp() throws RemoteException {
 		productList.add(new Product("Kubek", "China", 12.5, 6));
 		productList.add(new Product("LG G4", "Asia", 2500, 2));
-		productList.add(new Product("Talerz", "Poland", 4.99, 10));
+		productList.add(new Product("Talerz", "Poland", 4.99, 10)); 
+		
 	}
 
 	@Override
-	public List<Product> searchProduct(String filter, String search) throws RemoteException {
+	public synchronized List<Product> searchProduct(String filter, String search) throws RemoteException {
 		String parametr = filter.toLowerCase();
 		List<Product> searchList = new ArrayList<>();
 		
@@ -75,7 +76,7 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 	}
 
 	@Override
-	public Product buyProduct(int productId, int count) throws RemoteException {
+	public synchronized Product buyProduct(int productId, int count) throws RemoteException {
 		for (Product product : productList) {
 			if (product.getId() == productId && product.getQuantity() >= count) {
 				product.removeQuantity(count);
@@ -89,19 +90,19 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 	}
 
 	@Override
-	public void addNewProduct(Product newProduct) throws RemoteException {
+	public void addNewProduct(String name, String manufacturer, double price, int quantity) throws RemoteException {
 		for (Product product : productList) {
-			if (product.getName().equals(newProduct.getName())) {
-				showMessage("Produkt o takiej nazwie juz istnieje.");
+			if (product.getName().equals(name) && product.getManufacturer().equals(manufacturer)) {
+				showMessage("Istnieje juz taki produkt.");
 				return;
 			}
 		}
-		productList.add(newProduct);
+		productList.add(new Product(name,manufacturer,price,quantity));
 		showMessage("Dodano nowy produkt");
 	}
 
 	@Override
-	public void addProduct(int productId, int count) throws RemoteException {
+	public synchronized void addProduct(int productId, int count) throws RemoteException {
 		for (Product product : productList) {
 			if (product.getId() == productId) {
 				product.addQuantity(count);
@@ -116,9 +117,8 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 		JOptionPane.showMessageDialog(null, message);
 	}
 
+	@Override
 	public List<Product> getProductList() {
 		return productList;
 	}
-	
-
 }

@@ -6,7 +6,6 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int quantity;
-	private int tempQuantity;
 	private double price;
 	private String name;
 	private String manufacturer;
@@ -19,8 +18,7 @@ public class Product implements Serializable {
 		this.manufacturer = manufacturer;
 		this.price = price;
 		this.quantity = quantity;
-		this.tempQuantity = quantity;
-		idCount++;
+		increaseIdCount();
 	}
 
 	public Product(Product product) {
@@ -78,18 +76,14 @@ public class Product implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public int getTempQuantity() {
-		return tempQuantity;
-	}
-
-	public void setTempQuantity(int tempQuantity) {
-		this.tempQuantity = tempQuantity;
+	
+	private synchronized void increaseIdCount(){
+		idCount++;
 	}
 
 	@Override
 	public String toString() {
-		return id + ". " + name + ", " + manufacturer + ", " + price + "zl, " + quantity;
+		return id + ". " + name + ", " + manufacturer + ", " + price + "zl, " + quantity + "szt.";
 	}
 
 }

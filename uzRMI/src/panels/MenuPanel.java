@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import data.Id;
-import data.Product;
 import logic.ShopImp;
 import main.Client;
 
@@ -24,6 +23,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton addProduct;
 	private JButton addNewProduct;
 	private JButton searchProduct;
+	private JButton refresh;
 	private Client clientRef;
 	private ItemList itemList;
 
@@ -39,19 +39,22 @@ public class MenuPanel extends JPanel implements ActionListener {
 		addProduct = new JButton("Add product");
 		addNewProduct = new JButton("Add new product");
 		searchProduct = new JButton("Search");
+		refresh = new JButton("Refresh");
 
 		logIn.addActionListener(this);
 		logOut.addActionListener(this);
 		addProduct.addActionListener(this);
 		addNewProduct.addActionListener(this);
 		searchProduct.addActionListener(this);
+		refresh.addActionListener(this);
 
 		add(logIn);
 		add(logOut).setVisible(false);
 		add(addProduct).setVisible(false);
 		add(addNewProduct).setVisible(false);
 		add(searchProduct);
-
+		add(refresh);
+		
 	}
 
 	@Override
@@ -66,18 +69,6 @@ public class MenuPanel extends JPanel implements ActionListener {
 			clientRef.setStatus(Id.USER);
 			adminButtons(false);
 
-		} else if (source == addProduct) {
-			try {
-				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
-				int count = Integer.parseInt(result);
-				clientRef.getNetConn().addProduct(1, count);
-				itemList.refreshList();
-			} catch (RemoteException e1) {
-				e1.printStackTrace();
-			} catch (NumberFormatException e1) {
-				ShopImp.showMessage("Zly format");
-			}
-
 		} else if (source == addNewProduct) {
 			try {
 				String name = JOptionPane.showInputDialog(null, "Podaj nazwe:");
@@ -86,9 +77,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 				int ilosc = Integer.parseInt(JOptionPane.showInputDialog(null, "Podaj ilosc:"));
 				if (name == null || manufacturer == null)
 					throw new NullPointerException();
-				clientRef.getNetConn().addNewProduct(new Product(name, manufacturer, cena, ilosc));
-				System.out.println(clientRef.getNetConn().getProductList().size());
-				itemList.refreshList();
+				clientRef.getNetConn().addNewProduct(name, manufacturer, cena, ilosc);
+				itemList.refreshList(); 
 			} catch (NumberFormatException e1) {
 				ShopImp.showMessage("Podano zle wartosci.");
 			} catch (RemoteException e1) {
@@ -96,6 +86,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 			} catch (NullPointerException e1) {
 				ShopImp.showMessage("Prosze uzupelnic wszystkie pola.");
 			}
+			
 		} else if (source == searchProduct) {
 			try {
 				JDialog.setDefaultLookAndFeelDecorated(true);
@@ -106,12 +97,15 @@ public class MenuPanel extends JPanel implements ActionListener {
 				String search = JOptionPane.showInputDialog(null, "Szukane:");
 				if (search == null)
 					throw new NullPointerException();
-				clientRef.getNetConn().searchProduct(filter, search);
+				itemList.showSearchList(clientRef.getNetConn().searchProduct(filter, search));
 			} catch (NullPointerException e2) {
 				ShopImp.showMessage("Prosze uzupelnic pole.");
 			} catch (RemoteException e2) {
 				e2.printStackTrace();
 			}
+			
+		} else if (source == refresh){
+			itemList.refreshList();
 		}
 	}
 

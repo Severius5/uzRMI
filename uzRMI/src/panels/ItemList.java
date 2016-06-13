@@ -1,6 +1,7 @@
 package panels;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -25,15 +26,18 @@ public class ItemList extends JPanel {
 	private List<Product> productListRef;
 	private DefaultListModel<String> model;
 	private Client clientRef;
+	private CartList cartList;
 
-	public ItemList(Client clientRef) {
+	public ItemList(Client clientRef, JPanel cartList) {
 		setLayout(new BorderLayout());
 		model = new DefaultListModel<>();
 		list = new JList<>(model);
 		JScrollPane pane = new JScrollPane(list);
+		pane.setPreferredSize(new Dimension(250,150));
 		JButton addProductBtn = new JButton("Add product");
 		JButton buyProductBtn = new JButton("Buy product");
 		this.clientRef = clientRef;
+		this.cartList = (CartList) cartList;
 		try {
 			this.productListRef = clientRef.getNetConn().getProductList();
 		} catch (RemoteException e1) {
@@ -45,12 +49,11 @@ public class ItemList extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if (clientRef.getStatus() == Id.ADMIN) {
-						String productId = list.getSelectedValue();
-						int id = Integer.parseInt(productId.substring(0, 1));
-						String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
-						int count = Integer.parseInt(result);
+						int id = Integer.parseInt(getIdFromList());
+						int count = Integer.parseInt(JOptionPane.showInputDialog(null, "Ilosc sztuk:"));
 						clientRef.getNetConn().addProduct(id, count);
 						refreshList();
+						cartList.repaint();
 					} else {
 						ShopImp.showMessage("Wymagane prawa administratora");
 					}
@@ -65,9 +68,12 @@ public class ItemList extends JPanel {
 		buyProductBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String prod = list.getSelectedValue();
-					int productId = Integer.parseInt(prod.substring(0, 1));
+					int productId = Integer.parseInt(getIdFromList());
 					int count = Integer.parseInt(JOptionPane.showInputDialog(null, "Podaj ilosc:"));
+					if(count == 0){
+						ShopImp.showMessage("Prosze kupic wiecej niz 0 sztuk.");
+						return;
+					}
 					clientRef.addToCart(clientRef.getNetConn().buyProduct(productId, count));
 					refreshList();
 				} catch (RemoteException e1) {
@@ -93,10 +99,29 @@ public class ItemList extends JPanel {
 		for (Product product2 : productListRef) {
 			model.addElement(product2.toString());
 		}
+		cartList.refreshList();
 	}
 
 	public void showList() {
 		for (Product product : productListRef) {
+			model.addElement(product.toString());
+		}
+	}
+
+	private String getIdFromList() {
+		String prod = list.getSelectedValue();
+		String first = prod.substring(0, 1);
+		String second = prod.substring(1, 2);
+		if (!second.equals(".")) {
+			return first + second;
+		} else {
+			return first;
+		}
+	}
+	
+	public void showSearchList(List<Product> searchList){
+		model.removeAllElements();
+		for(Product product:searchList){
 			model.addElement(product.toString());
 		}
 	}
