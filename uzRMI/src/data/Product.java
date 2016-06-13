@@ -6,11 +6,12 @@ public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int quantity;
+	private int tempQuantity;
 	private double price;
 	private String name;
 	private String manufacturer;
 	private int id;
-	private int idCount = 1;
+	private static int idCount;
 
 	public Product(String name, String manufacturer, double price, int quantity) {
 		id = idCount;
@@ -18,6 +19,16 @@ public class Product implements Serializable {
 		this.manufacturer = manufacturer;
 		this.price = price;
 		this.quantity = quantity;
+		this.tempQuantity = quantity;
+		idCount++;
+	}
+
+	public Product(Product product) {
+		this.id = product.getId();
+		this.name = product.getName();
+		this.manufacturer = product.getManufacturer();
+		this.price = product.getPrice();
+		this.quantity = product.getQuantity();
 	}
 
 	public int getQuantity() {
@@ -66,6 +77,19 @@ public class Product implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getTempQuantity() {
+		return tempQuantity;
+	}
+
+	public void setTempQuantity(int tempQuantity) {
+		this.tempQuantity = tempQuantity;
+	}
+
+	@Override
+	public String toString() {
+		return id + ". " + name + ", " + manufacturer + ", " + price + "zl, " + quantity;
 	}
 
 }

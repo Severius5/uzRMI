@@ -17,8 +17,12 @@ public class Server {
 			Registry registry = LocateRegistry.createRegistry(11111);
 			registry.rebind("Sklep", shopImp);
 			System.out.println("Start serwer");
-			while(true) { }
+			while(true) { 
+				Thread.sleep(100);
+			}
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

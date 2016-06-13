@@ -79,7 +79,7 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 		for (Product product : productList) {
 			if (product.getId() == productId && product.getQuantity() >= count) {
 				product.removeQuantity(count);
-				Product bought = product;
+				Product bought = new Product(product);
 				bought.setQuantity(count);
 				return bought;
 			}
@@ -106,14 +106,19 @@ public class ShopImp extends UnicastRemoteObject implements Shop {
 			if (product.getId() == productId) {
 				product.addQuantity(count);
 				showMessage("Dodano produkt.");
-			} else {
-				showMessage("Brak danego produktu na liscie.");
-			}
+				return;
+			} 
 		}
+		showMessage("Brak danego produktu na liscie.");
 	}
 
 	public static void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
+
+	public List<Product> getProductList() {
+		return productList;
+	}
+	
 
 }

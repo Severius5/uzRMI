@@ -15,5 +15,7 @@ public interface Shop extends Remote{
 	public void addNewProduct(Product newProduct) throws RemoteException;
 
 	public void addProduct(int productId, int count) throws RemoteException;
+	
+	public List<Product> getProductList() throws RemoteException;
 
 }

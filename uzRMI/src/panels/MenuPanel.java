@@ -25,13 +25,15 @@ public class MenuPanel extends JPanel implements ActionListener {
 	private JButton addNewProduct;
 	private JButton searchProduct;
 	private Client clientRef;
+	private ItemList itemList;
 
-	public MenuPanel(Client clientRef) {
+	public MenuPanel(Client clientRef, JPanel itemList) {
 		this.clientRef = clientRef;
-		
+		this.itemList = (ItemList)itemList;
+
 		setLayout(new FlowLayout());
 		setPreferredSize(new Dimension(500, 100));
-		
+
 		logIn = new JButton("Log in");
 		logOut = new JButton("Log out");
 		addProduct = new JButton("Add product");
@@ -49,7 +51,7 @@ public class MenuPanel extends JPanel implements ActionListener {
 		add(addProduct).setVisible(false);
 		add(addNewProduct).setVisible(false);
 		add(searchProduct);
-		
+
 	}
 
 	@Override
@@ -59,22 +61,23 @@ public class MenuPanel extends JPanel implements ActionListener {
 		if (source == logIn) {
 			clientRef.setStatus(Id.ADMIN);
 			adminButtons(true);
-			
+
 		} else if (source == logOut) {
 			clientRef.setStatus(Id.USER);
 			adminButtons(false);
-			
+
 		} else if (source == addProduct) {
 			try {
 				String result = JOptionPane.showInputDialog(null, "Ilosc sztuk:");
 				int count = Integer.parseInt(result);
 				clientRef.getNetConn().addProduct(1, count);
+				itemList.refreshList();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();
 			} catch (NumberFormatException e1) {
 				ShopImp.showMessage("Zly format");
 			}
-			
+
 		} else if (source == addNewProduct) {
 			try {
 				String name = JOptionPane.showInputDialog(null, "Podaj nazwe:");
@@ -84,7 +87,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 				if (name == null || manufacturer == null)
 					throw new NullPointerException();
 				clientRef.getNetConn().addNewProduct(new Product(name, manufacturer, cena, ilosc));
-				
+				System.out.println(clientRef.getNetConn().getProductList().size());
+				itemList.refreshList();
 			} catch (NumberFormatException e1) {
 				ShopImp.showMessage("Podano zle wartosci.");
 			} catch (RemoteException e1) {
@@ -92,26 +96,26 @@ public class MenuPanel extends JPanel implements ActionListener {
 			} catch (NullPointerException e1) {
 				ShopImp.showMessage("Prosze uzupelnic wszystkie pola.");
 			}
-		} else if(source == searchProduct){
-			try{
+		} else if (source == searchProduct) {
+			try {
 				JDialog.setDefaultLookAndFeelDecorated(true);
-			    Object[] selectionValues = { "Id", "Name", "Manufacturer", "Price", "Quantity" };
-			    String initialSelection = "Id";
-			    String filter = JOptionPane.showInputDialog(null, "Po czym wyszukiwac?",
-			        "Search", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection).toString();
-			    String search = JOptionPane.showInputDialog(null, "Szukane:");
-			    if(search == null)
-			    	throw new NullPointerException();
-			    clientRef.getNetConn().searchProduct(filter, search);
-			}catch(NullPointerException e2){
+				Object[] selectionValues = { "Id", "Name", "Manufacturer", "Price", "Quantity" };
+				String initialSelection = "Id";
+				String filter = JOptionPane.showInputDialog(null, "Po czym wyszukiwac?", "Search",
+						JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection).toString();
+				String search = JOptionPane.showInputDialog(null, "Szukane:");
+				if (search == null)
+					throw new NullPointerException();
+				clientRef.getNetConn().searchProduct(filter, search);
+			} catch (NullPointerException e2) {
 				ShopImp.showMessage("Prosze uzupelnic pole.");
 			} catch (RemoteException e2) {
 				e2.printStackTrace();
 			}
 		}
 	}
-	
-	private void adminButtons(boolean condition){
+
+	private void adminButtons(boolean condition) {
 		logIn.setVisible(!condition);
 		logOut.setVisible(condition);
 		addProduct.setVisible(condition);

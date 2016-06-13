@@ -16,11 +16,14 @@ public class MyFrame extends JFrame {
 		super("Sklep");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		setPreferredSize(new Dimension(500, 200));
+		setPreferredSize(new Dimension(500, 800));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		JPanel menuPanel = new MenuPanel(clientRef);
+		
+		JPanel itemList = new ItemList(clientRef);
+		JPanel menuPanel = new MenuPanel(clientRef, itemList);
 		add(menuPanel);
+		add(itemList);
 		
 		pack();
 		
