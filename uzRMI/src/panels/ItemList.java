@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -24,13 +23,11 @@ public class ItemList extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JList<String> list;
 	private List<Product> productListRef;
-	private int amountOfItems;
 	private DefaultListModel<String> model;
 	private Client clientRef;
 
 	public ItemList(Client clientRef) {
 		setLayout(new BorderLayout());
-		// setPreferredSize(new Dimension(500, 100));
 		model = new DefaultListModel<>();
 		list = new JList<>(model);
 		JScrollPane pane = new JScrollPane(list);
@@ -40,13 +37,9 @@ public class ItemList extends JPanel {
 		try {
 			this.productListRef = clientRef.getNetConn().getProductList();
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		this.amountOfItems = productListRef.size();
 		showList();
-		// for (int i = 0; i < 15; i++)
-		// model.addElement("Element " + i);
 
 		addProductBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +87,6 @@ public class ItemList extends JPanel {
 		try {
 			this.productListRef = clientRef.getNetConn().getProductList();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.removeAllElements();
