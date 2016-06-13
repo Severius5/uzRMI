@@ -30,8 +30,8 @@ public class Client {
 
 			Client client = new Client();
 			client.netConn = (Shop) remoteObject;
+			
 			EventQueue.invokeLater(new Runnable() {
-
 				@Override
 				public void run() {
 					new MyFrame(client);
@@ -41,7 +41,6 @@ public class Client {
 		} catch (NotBoundException | IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public Id getStatus() {
@@ -59,13 +58,23 @@ public class Client {
 	public void setCart(ArrayList<Product> cart) {
 		this.cart = cart;
 	}
-
+	
 	public Shop getNetConn() {
 		return netConn;
 	}
 
-	public void addToCart(Product item) {
+	public synchronized void addToCart(Product item) {
 		cart.add(item);
+	}
+
+	public boolean removeFromCart(int id) {
+		for (Product product : cart) {
+			if (product.getId() == id) {
+				cart.remove(product);
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
