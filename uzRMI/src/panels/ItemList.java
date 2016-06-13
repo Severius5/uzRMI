@@ -33,7 +33,7 @@ public class ItemList extends JPanel {
 		model = new DefaultListModel<>();
 		list = new JList<>(model);
 		JScrollPane pane = new JScrollPane(list);
-		pane.setPreferredSize(new Dimension(250,150));
+		pane.setPreferredSize(new Dimension(250, 150));
 		JButton addProductBtn = new JButton("Add product");
 		JButton buyProductBtn = new JButton("Buy product");
 		this.clientRef = clientRef;
@@ -70,12 +70,15 @@ public class ItemList extends JPanel {
 				try {
 					int productId = Integer.parseInt(getIdFromList());
 					int count = Integer.parseInt(JOptionPane.showInputDialog(null, "Podaj ilosc:"));
-					if(count == 0){
+					if (count == 0) {
 						ShopImp.showMessage("Prosze kupic wiecej niz 0 sztuk.");
 						return;
 					}
-					clientRef.addToCart(clientRef.getNetConn().buyProduct(productId, count));
-					refreshList();
+					Product tmp = clientRef.getNetConn().buyProduct(productId, count);
+					if (tmp != null) {
+						clientRef.addToCart(tmp);
+						refreshList();
+					}
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				} catch (NumberFormatException e1) {
@@ -118,10 +121,10 @@ public class ItemList extends JPanel {
 			return first;
 		}
 	}
-	
-	public void showSearchList(List<Product> searchList){
+
+	public void showSearchList(List<Product> searchList) {
 		model.removeAllElements();
-		for(Product product:searchList){
+		for (Product product : searchList) {
 			model.addElement(product.toString());
 		}
 	}
