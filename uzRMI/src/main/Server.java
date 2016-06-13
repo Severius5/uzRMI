@@ -20,6 +20,7 @@ public class Server {
 			while(true) { 
 				Thread.sleep(100);
 			}
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
